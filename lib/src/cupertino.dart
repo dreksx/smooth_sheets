@@ -11,7 +11,7 @@ import 'model.dart';
 import 'viewport.dart';
 
 const _sheetTopInset = 12.0;
-const _minimizedSheetScale = 0.92;
+const _minimizedSheetScale = 0.9165;
 const _minimizedSheetCornerRadius = 12.0;
 const _barrierColor = Color(0x18000000);
 const _transitionDuration = Duration(milliseconds: 300);
@@ -207,6 +207,7 @@ class _OutgoingTransitionState extends State<_OutgoingTransition> {
   @override
   void initState() {
     super.initState();
+    debugPrint("ANIMATED STATEV2");
     _animation = CurvedAnimation(
       parent: widget.animation,
       curve: _outgoingTransitionCurve,
@@ -226,6 +227,8 @@ class _OutgoingTransitionState extends State<_OutgoingTransition> {
 
   @override
   Widget build(BuildContext context) {
+    final double deviceCornerRadius = MediaQuery.maybeViewPaddingOf(context)?.top ?? 0;
+
     return _TransformTransition(
       animation: _animation,
       offsetTween: Tween(
@@ -235,7 +238,7 @@ class _OutgoingTransitionState extends State<_OutgoingTransition> {
       scaleTween: Tween(begin: 1, end: _minimizedSheetScale),
       child: _ClipRRectTransition(
         radius: Tween(
-          begin: 0.0,
+          begin: deviceCornerRadius,
           end: _minimizedSheetCornerRadius,
         ).animate(_animation),
         child: widget.child,
